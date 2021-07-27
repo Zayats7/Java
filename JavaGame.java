@@ -18,11 +18,13 @@ public class JavaGame
 
     public static char player = '@';
     public static int playerHealth = 100;
-    public static int playerPowerPoint = 15;
+    public static int playerPowerPoint;    //15;
     public static int playerPosX;
     public static int playerPosY;
     public static int playerCountStep = 0;
     public static boolean setRandomStartPosition = false;
+    public static int playerValueMin = 10;
+    public static int playerValueMax = 30;
 
     public static final int moveUp = 8;
     public static final int moveDown = 2;
@@ -63,7 +65,7 @@ public class JavaGame
         while (true)
         {
             printMap();
-            System.out.println("[Player info] > Health: " + playerHealth + ". Count steps: " + playerCountStep);
+            System.out.println("[Player info] > Health: " + playerHealth + ". Count steps: " + playerCountStep + ". Player power: " + playerPowerPoint);
             changePositionPlayer();
 
             if (!isPlayerAlive())
@@ -91,7 +93,7 @@ public class JavaGame
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                map[y][x] = emptyCell;
+               map[y][x] = emptyCell;
             }
         }
 
@@ -114,6 +116,7 @@ public class JavaGame
 
     public static void createPlayer(boolean randomPositionPlayer)
     {
+        playerPowerPoint = randomRange(playerValueMin, playerValueMax);
         if (randomPositionPlayer)
         {
             playerPosX = randomRange(0, mapWidth - 1);
@@ -230,7 +233,9 @@ public class JavaGame
         if (invisibleMap[nextY][nextX] == enemy)
         {
             playerHealth -= enemyPower;
+            enemyHealth -= playerPowerPoint;
             System.out.println("Alert! Enemy give damage " + enemyPower + ". Player health now is " + playerHealth);
+            System.out.println("Alert! You give damage " + playerPowerPoint + ". Enemy health now is " + enemyHealth);
         }
 
         invisibleMap[playerPosY][playerPosX] = readyCell;
